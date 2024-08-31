@@ -1,4 +1,4 @@
-package com.laurentvrevin.pomodoro.ui.theme
+package com.laurentvrevin.pomodoro.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

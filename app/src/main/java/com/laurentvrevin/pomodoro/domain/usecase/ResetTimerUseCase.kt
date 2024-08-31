@@ -1,4 +1,9 @@
 package com.laurentvrevin.pomodoro.domain.usecase
 
-class ResetTimerUseCase {
+import com.laurentvrevin.pomodoro.domain.repository.TimerRepository
+
+class ResetTimerUseCase(private val timerRepository: TimerRepository) {
+    operator fun invoke() {
+        timerRepository.resetTimer()
+    }
 }
