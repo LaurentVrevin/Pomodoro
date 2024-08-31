@@ -1,5 +1,6 @@
 package com.laurentvrevin.pomodoro.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.laurentvrevin.pomodoro.domain.repository.TimerRepository
@@ -62,11 +63,11 @@ class PomodoroViewModel(
         job?.cancel()
         job = null
         _isRunning.value = false
+        Log.d("TAGTAG", "VIEWMODEOL = Timer stopped")
     }
 
     fun resetTimer() {
         stopTimer()
-        resetTimerUseCase()
         _worktime.value = initialWorkTime // Réinitialiser le temps de travail
         _isRunning.value = false
     }

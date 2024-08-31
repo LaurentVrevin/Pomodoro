@@ -1,5 +1,6 @@
 package com.laurentvrevin.pomodoro.data.repository
 
+import android.util.Log
 import com.laurentvrevin.pomodoro.domain.repository.TimerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,12 +28,15 @@ class TimerRepositoryImpl : TimerRepository {
         }
     }
 
-    override fun stopTimer() {
+    override suspend fun stopTimer() {
         job?.cancel()
+        job = null
+        Log.d("TAGTAG", "TimerRepository = Timer stopped")
     }
 
+
     override fun resetTimer() {
-        stopTimer()
+
     }
 
 }
