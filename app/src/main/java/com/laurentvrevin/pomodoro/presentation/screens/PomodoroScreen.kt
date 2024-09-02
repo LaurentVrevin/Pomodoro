@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
+
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
@@ -21,11 +23,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.laurentvrevin.pomodoro.presentation.viewmodel.PomodoroViewModel
 import com.laurentvrevin.pomodoro.utils.formatTime
@@ -36,6 +40,7 @@ fun PomodoroScreen(pomodoroViewModel: PomodoroViewModel){
     val progress by pomodoroViewModel.progress.collectAsState()
     val worktime by pomodoroViewModel.worktime.collectAsState()
     val isRunning by pomodoroViewModel.isRunning.collectAsState()
+    var labelPushPlayPause = if (isRunning) "Pause" else "Play"
 
     Box(
         modifier = Modifier
@@ -81,9 +86,31 @@ fun PomodoroScreen(pomodoroViewModel: PomodoroViewModel){
                         .size(250.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text(text = formatTime(worktime), style = MaterialTheme.typography.displayLarge)
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = formatTime(worktime),
+                            style = MaterialTheme.typography.displayLarge,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+
+                        // Texte "Play" ou "Pause" en bas du bouton
+                        Text(
+                            text = labelPushPlayPause,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(0.dp, 0.dp, 0.dp, 16.dp)
+                        )
+                    }
                 }
+
             }
+
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(onClick = {
@@ -113,5 +140,4 @@ fun PomodoroScreen(pomodoroViewModel: PomodoroViewModel){
 
         }
     }
-
 }
