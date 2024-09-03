@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
-class PomodoroViewModel(
+open class PomodoroViewModel(
     private val startTimerUseCase: StartTimerUseCase,
     private val stopTimerUseCase: StopTimerUseCase,
     private val resetTimerUseCase: ResetTimerUseCase,

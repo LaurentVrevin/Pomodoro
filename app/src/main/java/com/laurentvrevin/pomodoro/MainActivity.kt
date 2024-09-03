@@ -5,7 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.laurentvrevin.pomodoro.data.repository.TimerRepositoryImpl
+import com.laurentvrevin.pomodoro.navigation.NavGraph
 import com.laurentvrevin.pomodoro.presentation.screens.PomodoroScreen
 import com.laurentvrevin.pomodoro.presentation.theme.PomodoroTheme
 import com.laurentvrevin.pomodoro.presentation.viewmodel.PomodoroViewModel
@@ -26,11 +30,17 @@ class MainActivity : ComponentActivity() {
             
         setContent {
             PomodoroTheme {
-
-                PomodoroScreen(pomodoroViewModel = pomodoroViewModel)
+                PomodoroApp(pomodoroViewModel = pomodoroViewModel)
 
             }
         }
+    }
+}
+@Composable
+fun PomodoroApp(pomodoroViewModel: PomodoroViewModel) {
+    PomodoroTheme {
+        val navController: NavHostController = rememberNavController()
+        NavGraph(navController = navController, pomodoroViewModel = pomodoroViewModel)
     }
 }
 

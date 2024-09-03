@@ -31,11 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.laurentvrevin.pomodoro.presentation.viewmodel.PomodoroViewModel
 import com.laurentvrevin.pomodoro.utils.formatTime
 
 @Composable
-fun PomodoroScreen(pomodoroViewModel: PomodoroViewModel){
+fun PomodoroScreen(navController: NavController, pomodoroViewModel: PomodoroViewModel){
 
     val progress by pomodoroViewModel.progress.collectAsState()
     val worktime by pomodoroViewModel.worktime.collectAsState()
@@ -47,7 +48,7 @@ fun PomodoroScreen(pomodoroViewModel: PomodoroViewModel){
         .fillMaxSize()
     ) {
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate("Settings") },
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp)
