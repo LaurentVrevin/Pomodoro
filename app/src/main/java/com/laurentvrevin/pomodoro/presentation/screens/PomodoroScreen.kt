@@ -29,10 +29,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.laurentvrevin.pomodoro.R
 import com.laurentvrevin.pomodoro.presentation.viewmodel.PomodoroViewModel
+import com.laurentvrevin.pomodoro.utils.PreviewPomodoroViewModel
 import com.laurentvrevin.pomodoro.utils.formatTime
 
 @Composable
@@ -43,9 +49,12 @@ fun PomodoroScreen(navController: NavController, pomodoroViewModel: PomodoroView
     val isRunning by pomodoroViewModel.isRunning.collectAsState()
     var labelPushPlayPause = if (isRunning) "Pause" else "Play"
 
+
+
     Box(
         modifier = Modifier
-        .fillMaxSize()
+            .fillMaxSize()
+            .padding(8.dp)
     ) {
         IconButton(
             onClick = { navController.navigate("Settings") },
@@ -80,12 +89,14 @@ fun PomodoroScreen(navController: NavController, pomodoroViewModel: PomodoroView
 
 
                 Button(
+
                     onClick = {
                         pomodoroViewModel.toggleTimer(worktime)
                     },
                     modifier = Modifier
                         .size(250.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -141,4 +152,9 @@ fun PomodoroScreen(navController: NavController, pomodoroViewModel: PomodoroView
 
         }
     }
+}
+@Preview
+@Composable
+fun PomodoroScreenPreview() {
+    PomodoroScreen(navController = NavController(LocalContext.current), pomodoroViewModel = PreviewPomodoroViewModel())
 }

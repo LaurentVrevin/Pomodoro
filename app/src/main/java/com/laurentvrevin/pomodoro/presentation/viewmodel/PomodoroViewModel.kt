@@ -70,6 +70,7 @@ open class PomodoroViewModel(
         stopTimer()
         _worktime.value = initialWorkTime // Réinitialiser le temps de travail
         _isRunning.value = false
+        _progress.value = 1f // Réinitialiser la progression
     }
 
     fun toggleTimer(workTime: Long) {
