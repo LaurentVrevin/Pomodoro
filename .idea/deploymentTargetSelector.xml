@@ -7,6 +7,14 @@
       </SelectionState>
       <SelectionState runConfigName="SettingsScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2024-09-05T08:30:35.152107500Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\laure\.android\avd\Pixel_6_API_28.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="PomodoroScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />
