@@ -59,18 +59,26 @@ open class PomodoroViewModel(
         }
     }
 
+    // Utilisation du use case pour arrêter le timer
     private fun stopTimer() {
-        job?.cancel()
-        job = null
-        _isRunning.value = false
-        Log.d("TAGTAG", "VIEWMODEOL = Timer stopped")
+        viewModelScope.launch {
+            stopTimerUseCase()  // Appel au use case StopTimer
+            job?.cancel()
+            job = null
+            _isRunning.value = false
+            Log.d("PomodoroViewModel", "Timer stopped")
+        }
     }
 
     fun resetTimer() {
-        stopTimer()
-        _worktime.value = initialWorkTime // Réinitialiser le temps de travail
-        _isRunning.value = false
-        _progress.value = 1f // Réinitialiser la progression
+        viewModelScope.launch {
+            stopTimer() // Stop the timer
+            _worktime.value = initialWorkTime // Reset the worktime
+            resetTimerUseCase // Call the suspend function in the repository
+            _isRunning.value = false
+            _progress.value = 1f
+            Log.d("PomodoroViewModel", "Timer reset")
+        }
     }
 
     fun toggleTimer(workTime: Long) {

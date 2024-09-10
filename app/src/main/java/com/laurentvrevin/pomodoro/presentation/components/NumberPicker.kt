@@ -1,6 +1,11 @@
 package com.laurentvrevin.pomodoro.presentation.components
 
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.view.SoundEffectConstants
+import android.media.ToneGenerator
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -26,6 +31,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.common.Effect
+import com.laurentvrevin.pomodoro.R
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlin.math.abs
@@ -49,6 +56,10 @@ textModifier: Modifier = Modifier,
 textStyle: TextStyle = LocalTextStyle.current,
 dividerColor: Color = LocalContentColor.current,
 ) {
+
+    // Initialiser le ToneGenerator pour jouer le son
+    val toneGenerator = remember { ToneGenerator(AudioManager.STREAM_MUSIC, 100) }
+    var hasRendered by remember { mutableStateOf(false) }
 
     val visibleItemsMiddle = visibleItemsCount / 2
     val listScrollCount = Integer.MAX_VALUE
@@ -76,7 +87,17 @@ dividerColor: Color = LocalContentColor.current,
         snapshotFlow { listState.firstVisibleItemIndex }
             .map { index -> getItem(index + visibleItemsMiddle) }
             .distinctUntilChanged()
-            .collect { item -> state.selectedItem = item }
+            .collect {
+                item ->
+                state.selectedItem = item
+
+                // Ne jouer le son que si le composant a déjà été rendu une fois
+                if (hasRendered) {
+                   toneGenerator.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 100) // 100 ms de bip
+
+                }
+                hasRendered = true // Marquer que le premier rendu est terminé
+            }
     }
 
     Box(

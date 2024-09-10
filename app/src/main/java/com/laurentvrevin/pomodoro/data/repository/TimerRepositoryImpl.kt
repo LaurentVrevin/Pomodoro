@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 
 class TimerRepositoryImpl : TimerRepository {
 
+    private var initialWorkTime: Long = 25 * 60 // 25 minutes par défaut
+    private var timeRemaining: Long = initialWorkTime
 
     private var job: Job? = null
 
@@ -35,8 +37,10 @@ class TimerRepositoryImpl : TimerRepository {
     }
 
 
-    override fun resetTimer() {
-
+    override suspend fun resetTimer() {
+        stopTimer()  // Arrête tout timer actif
+        timeRemaining = initialWorkTime // Réinitialise à la valeur initiale
+        Log.d("TAGTAG", "TimerRepository = Timer reset to $initialWorkTime seconds")
     }
 
 }

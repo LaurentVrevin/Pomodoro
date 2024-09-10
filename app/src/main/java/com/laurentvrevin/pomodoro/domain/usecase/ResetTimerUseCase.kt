@@ -3,7 +3,7 @@ package com.laurentvrevin.pomodoro.domain.usecase
 import com.laurentvrevin.pomodoro.domain.repository.TimerRepository
 
 class ResetTimerUseCase(private val timerRepository: TimerRepository) {
-    operator fun invoke() {
+    suspend operator fun invoke() {
         timerRepository.resetTimer()
     }
 }
