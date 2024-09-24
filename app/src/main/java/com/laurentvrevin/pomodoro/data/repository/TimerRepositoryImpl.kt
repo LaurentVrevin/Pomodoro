@@ -1,6 +1,7 @@
 package com.laurentvrevin.pomodoro.data.repository
 
 import android.util.Log
+import com.laurentvrevin.pomodoro.data.preferences.PreferencesManager
 import com.laurentvrevin.pomodoro.domain.repository.TimerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -8,7 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TimerRepositoryImpl : TimerRepository {
+class TimerRepositoryImpl(val preferencesManager: PreferencesManager) : TimerRepository {
 
     private var initialWorkTime: Long = 25 * 60 // 25 minutes par défaut
     private var timeRemaining: Long = initialWorkTime
@@ -43,4 +44,19 @@ class TimerRepositoryImpl : TimerRepository {
         Log.d("TAGTAG", "TimerRepository = Timer reset to $initialWorkTime seconds")
     }
 
+    override fun loadWorkTime(): Long {
+        return preferencesManager.getWorkTime()
+    }
+
+    override fun loadBreakTime(): Long {
+        return preferencesManager.getBreakTime()
+    }
+
+    override fun saveWorkTime(workTime: Long) {
+        preferencesManager.setWorkTime(workTime)
+    }
+
+    override fun saveBreakTime(breakTime: Long) {
+        preferencesManager.setBreakTime(breakTime)
+    }
 }

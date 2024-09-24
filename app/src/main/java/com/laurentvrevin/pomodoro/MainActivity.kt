@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.laurentvrevin.pomodoro.data.preferences.PreferencesManager
 import com.laurentvrevin.pomodoro.data.repository.TimerRepositoryImpl
 import com.laurentvrevin.pomodoro.navigation.NavGraph
 import com.laurentvrevin.pomodoro.presentation.screens.PomodoroScreen
@@ -19,9 +20,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val preferencesManager = PreferencesManager(applicationContext)
 
         // Instance le repository qu'on passe à la Factory
-        val repository by lazy { TimerRepositoryImpl() }
+        val repository by lazy { TimerRepositoryImpl(preferencesManager = preferencesManager) }
 
         // Instance le ViewModel en utilisant la Factory
         val pomodoroViewModel: PomodoroViewModel by viewModels {

@@ -13,6 +13,7 @@ import com.laurentvrevin.pomodoro.presentation.viewmodel.PomodoroViewModel
 //Créer une classe de prévisualisation de PomodoroViewModel qui étend PomodoroViewModel
 //Ca permet d'éviter de recoder à chaque fois les instances de classes pour les Preview de screens si j'en avais plusieurs
 
+/*
 class PreviewPomodoroViewModel : PomodoroViewModel(
     startTimerUseCase = StartTimerUseCase(TimerRepositoryImpl()),
     stopTimerUseCase = StopTimerUseCase(TimerRepositoryImpl()),
@@ -20,4 +21,4 @@ class PreviewPomodoroViewModel : PomodoroViewModel(
     calculateProgressUseCase = CalculateProgressUseCase(),
     playSoundUseCase = PlaySoundUseCase(MediaPlayer()), // MediaPlayer factice
     repository = TimerRepositoryImpl() // Repo factice
-)
+)*/

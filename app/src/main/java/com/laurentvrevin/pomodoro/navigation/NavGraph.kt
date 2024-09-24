@@ -9,36 +9,38 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.laurentvrevin.pomodoro.presentation.screens.BreakTimeScreen
 import com.laurentvrevin.pomodoro.presentation.screens.PomodoroScreen
 import com.laurentvrevin.pomodoro.presentation.screens.SettingsScreen
+import com.laurentvrevin.pomodoro.presentation.screens.TestScreen
+import com.laurentvrevin.pomodoro.presentation.screens.WorkTimeScreen
 import com.laurentvrevin.pomodoro.presentation.viewmodel.PomodoroViewModel
 
 
 @Composable
-fun NavGraph(navController: NavHostController, pomodoroViewModel: PomodoroViewModel){
+fun NavGraph(navController: NavHostController, pomodoroViewModel: PomodoroViewModel) {
     NavHost(
         navController = navController,
-        startDestination = "Main"
+        startDestination = "TestScreen"
     ) {
-        composable("Main") {
-            PomodoroScreen(
-                navController = navController,
-                pomodoroViewModel = pomodoroViewModel)
+        composable("TestScreen") {
+            TestScreen()
+        }
+
+        composable("WorkTimeScreen") {
+            WorkTimeScreen(navController = navController, pomodoroViewModel = pomodoroViewModel)
+        }
+
+        composable("BreakTimeScreen") {
+            BreakTimeScreen(navController = navController, pomodoroViewModel = pomodoroViewModel)
+        }
+
+        composable("PomodoroScreen") {
+            PomodoroScreen(navController = navController, pomodoroViewModel = pomodoroViewModel)
         }
 
         composable("Settings") {
-            AnimatedVisibility(
-                visible = true,
-                enter = slideInVertically(initialOffsetY = { -1000 }) + fadeIn(),
-                exit = slideOutVertically(targetOffsetY = { 1000 }) + fadeOut()
-                ) {
-
-                SettingsScreen(
-                    navController = navController,
-                    pomodoroViewModel = pomodoroViewModel)
-            }
-
+            SettingsScreen(navController = navController, pomodoroViewModel = pomodoroViewModel)
         }
     }
-
 }

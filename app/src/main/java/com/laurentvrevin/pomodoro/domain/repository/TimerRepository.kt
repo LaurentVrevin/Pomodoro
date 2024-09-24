@@ -5,4 +5,8 @@ interface TimerRepository {
     suspend fun stopTimer()
     suspend fun resetTimer()
 
+    fun loadWorkTime(): Long
+    fun loadBreakTime(): Long
+    fun saveWorkTime(workTime: Long)
+    fun saveBreakTime(breakTime: Long)
 }

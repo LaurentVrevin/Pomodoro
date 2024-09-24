@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.laurentvrevin.pomodoro.R
 import com.laurentvrevin.pomodoro.presentation.viewmodel.PomodoroViewModel
-import com.laurentvrevin.pomodoro.utils.PreviewPomodoroViewModel
+//import com.laurentvrevin.pomodoro.utils.PreviewPomodoroViewModel
 import com.laurentvrevin.pomodoro.utils.formatTime
 
 @Composable
@@ -57,14 +57,14 @@ fun PomodoroScreen(navController: NavController, pomodoroViewModel: PomodoroView
             .padding(8.dp)
     ) {
         IconButton(
-            onClick = { navController.navigate("Settings") },
+            onClick = { navController.navigate("WorkTimeScreen") },
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp)
         ) {
             Icon(
                 Icons.Default.Settings,
-                contentDescription = "Settings",
+                contentDescription = "WorkTimeScreen",
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -89,7 +89,6 @@ fun PomodoroScreen(navController: NavController, pomodoroViewModel: PomodoroView
 
 
                 Button(
-
                     onClick = {
                         pomodoroViewModel.toggleTimer(worktime)
                     },
@@ -156,5 +155,5 @@ fun PomodoroScreen(navController: NavController, pomodoroViewModel: PomodoroView
 @Preview
 @Composable
 fun PomodoroScreenPreview() {
-    PomodoroScreen(navController = NavController(LocalContext.current), pomodoroViewModel = PreviewPomodoroViewModel())
+    //PomodoroScreen(navController = NavController(LocalContext.current), pomodoroViewModel = PreviewPomodoroViewModel())
 }

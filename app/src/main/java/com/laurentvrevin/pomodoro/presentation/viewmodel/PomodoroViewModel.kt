@@ -22,12 +22,15 @@ open class PomodoroViewModel(
     private val resetTimerUseCase: ResetTimerUseCase,
     private val calculateProgressUseCase: CalculateProgressUseCase,
     private val playSoundUseCase: PlaySoundUseCase,
-    repository: TimerRepository
+    private val repository: TimerRepository
 ) : ViewModel() {
 
     private var initialWorkTime = 25L * 60L
+    private var initialBreakTime = 5L * 60L
     private val _worktime = MutableStateFlow(initialWorkTime)
     val worktime: StateFlow<Long> = _worktime
+    private val _breaktime = MutableStateFlow(initialBreakTime)
+    val breaktime: StateFlow<Long> = _breaktime
 
     private val _isRunning = MutableStateFlow(false)
     val isRunning: StateFlow<Boolean> = _isRunning
@@ -37,15 +40,26 @@ open class PomodoroViewModel(
 
     private var job: Job? = null
 
-    /*init {
-        val settings = repository.loadSettings()
-        updateWorkTime(settings.workTime)
-        updateBreakTime(settings.breakTime)
-    }*/
+    fun updateWorkTime(newWorkTime: Long) {
+        repository.saveWorkTime(newWorkTime)
+        initialWorkTime = newWorkTime
+    }
 
+    fun updateBreakTime(newBreakTime: Long) {
+        repository.saveBreakTime(newBreakTime)
+        initialBreakTime = newBreakTime
+    }
+
+    // Utilisation du StartTimerUseCase pour démarrer le timer
     private fun startTimer() {
         job = viewModelScope.launch {
             _isRunning.value = true
+            startTimerUseCase(_worktime.value) {  // Utilisation du use case
+                _isRunning.value = false
+                playSoundUseCase.execute()  // Quand le timer est fini
+            }
+
+            // Mise à jour régulière de la progression
             while (_worktime.value > 0) {
                 delay(1000L)
                 _worktime.value = max(_worktime.value - 1, 0)
@@ -59,7 +73,6 @@ open class PomodoroViewModel(
         }
     }
 
-    // Utilisation du use case pour arrêter le timer
     private fun stopTimer() {
         viewModelScope.launch {
             stopTimerUseCase()  // Appel au use case StopTimer
@@ -72,9 +85,9 @@ open class PomodoroViewModel(
 
     fun resetTimer() {
         viewModelScope.launch {
-            stopTimer() // Stop the timer
-            _worktime.value = initialWorkTime // Reset the worktime
-            resetTimerUseCase // Call the suspend function in the repository
+            stopTimer() // Stop le timer
+            _worktime.value = initialWorkTime // Réinitialiser le temps de travail
+            resetTimerUseCase()  // Appel au use case ResetTimer
             _isRunning.value = false
             _progress.value = 1f
             Log.d("PomodoroViewModel", "Timer reset")
@@ -85,8 +98,8 @@ open class PomodoroViewModel(
         if (_isRunning.value) {
             stopTimer()
         } else {
-            _worktime.value = workTime // Assurer que le workTime est correct avant de démarrer
-            startTimer()
+            _worktime.value = workTime
+            startTimer()  // Utilisation de la méthode mise à jour qui appelle le use case
         }
     }
 }
